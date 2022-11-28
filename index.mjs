@@ -1,12 +1,13 @@
 import express from "express";
-import { query } from "./db/index.js";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5000;
 import cors from "cors";
 const SECRET = "dasfdfhyjukuryerwesfdvfbdhe5y34twesgdfb";
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
