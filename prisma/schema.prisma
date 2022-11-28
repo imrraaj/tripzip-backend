@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String           @id @default(cuid())
+  name           String?
+  email          String           @unique
+  password       String
+  createdAt      DateTime         @default(now())
+  Hotel_bookings Hotel_bookings[]
+}
+
+model Bus {
+  id               String   @id @default(cuid())
+  from             String
+  to               String
+  arrival_time     DateTime
+  departure_time   DateTime
+  total_seats      Int?
+  vacant_seats     Int?
+  price            Float
+  operator_name    String?
+  operator_contact BigInt?
+}
+
+model Train {
+  id               String   @id @default(cuid())
+  from             String
+  to               String
+  arrival_time     DateTime
+  departure_time   DateTime
+  total_seats      Int?
+  vacant_seats     Int?
+  price            Float
+  operator_name    String?
+  operator_contact BigInt?
+}
+
+model Flight {
+  id               String   @id @default(cuid())
+  from             String
+  to               String
+  arrival_time     DateTime
+  departure_time   DateTime
+  total_seats      Int
+  vacant_seats     Int
+  price            Float
+  operator_name    String?
+  operator_contact BigInt?
+}
+
+model Hotel {
+  id             String           @id @default(cuid())
+  images         String?
+  name           String
+  price          Float
+  total_rooms    Int?
+  vacant_rooms   Int?
+  amenities      String
+  rating         Float
+  owner_contact  BigInt?
+  Hotel_bookings Hotel_bookings[]
+}
+
+model RHomes {
+  id            String  @id @default(cuid())
+  image         String?
+  name          String
+  price         Float
+  total_rooms   Int?
+  amenities     String
+  rating        Float
+  owner_contact BigInt?
+}
+
+model Transport_bookings {
+  id            String  @id @default(cuid())
+  userId        String
+  name          String
+  price         Float
+  total_rooms   Int
+  vacant_rooms  Int
+  amenities     String
+  rating        Float
+  owner_contact BigInt?
+}
+
+model Hotel_bookings {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hotelId         String
+  hotel           Hotel     @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  name            String
+  number_of_rooms Int
+  checkIn         DateTime?
+  checkOut        DateTime?
+  price           Float
+}
